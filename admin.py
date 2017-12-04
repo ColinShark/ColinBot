@@ -1,6 +1,6 @@
 #!/usr/bin/env python3.6
 # -*- coding: utf-8 -*-
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
 # Name:        admin.py what else did you expect here? :D
 # Purpose:     Send user input to the admin of the bot and let the admin reply
 #              to those texts through the bot
@@ -11,13 +11,13 @@
 # Created:     02.12.2017
 # Copyright:   (c) ColinShark 2017
 # Licence:     none
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
 
 API_TOKEN = "TOKEN"
 UserID_Colin = "289579584"
 received_message = None
 
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
 
 from telegram import (ReplyKeyboardMarkup,
                       ReplyKeyboardRemove,
@@ -80,8 +80,8 @@ def choice_yes(bot, update, user_data):
         reply_markup=ForceReply()
     )
 
-
     return USER_INPUT # Next state of the ConversationHandler
+
 
 def input_text(bot, update):
     global received_message
@@ -116,7 +116,7 @@ def respond_to_user(bot, update):
 
 def choice_no(bot, update):
     update.message.reply_text("Okay, Colin wird nicht benachrichtigt.",
-        reply_markup=ReplyKeyboardRemove()
+                              reply_markup=ReplyKeyboardRemove()
     )
     return ConversationHandler.END
 

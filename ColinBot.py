@@ -1,6 +1,6 @@
 ﻿#!/usr/bin/env python3.6
 # -*- coding: UTF-8 -*-
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
 # Name:        ColinBot.py
 # Purpose:     Doing Stuff for me wtf
 #
@@ -11,7 +11,7 @@
 # Copyright:   (c) ColinShark 2017
 # Licence:     none
 # File Format: UTF-8
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
 
 
 """
@@ -42,8 +42,9 @@ import re
 
 API_TOKEN = "TOKEN"
 
-UserID_Colin = "UserID"
-UserID_Rotfell = "UserID"
+UserID_Colin = "289579584"
+UserID_Rotfell = "198748192"
+UserID_KIBA = "139450056"
 
 # ##############################################################################
 
@@ -53,40 +54,61 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 
 logger = logging.getLogger(__name__)
 
+
 # ##############################################################################
 
 # Beim Start des Bots oder /start
 def start(bot, update):
     """Send a message when the command /start is issued."""
-#    bot.sendMessage(update.message.chat_id, text="Hallo {}".format(update.message.from_user.first_name))
+    #    bot.sendMessage(update.message.chat_id, text="Hallo {}".format(update.message.from_user.first_name))
     update.message.reply_text("***Dieser Bot ist aktuell noch im Aufbau.***")
-    update.message.reply_text("Die verfügbaren Befehle sind aktuell noch nicht gelistet, wie man es sonst gewohnt ist. Für eine Auflistung der verfügbaren Befehle schreib /help.")
+    update.message.reply_text(
+        "Die verfügbaren Befehle sind aktuell noch nicht gelistet, wie man es sonst gewohnt ist. Für eine Auflistung der verfügbaren Befehle schreib /help.")
     update.message.reply_text("Bei Problemen melde dich bitte bei @ColinShark.\nViel Vergnügen mit dem Bot :3")
+    bot.send_message(text='{} (@{}) hat den Bot gestartet.\n(oder nur /start benutzt ._.)'.format(
+        update.effective_user.first_name,
+        update.effective_user.username),
+        chat_id=UserID_Colin
+    )
 
 
 # Bei /help
 def help(bot, update):
     """Send a message when the command /help is issued."""
-    update.message.reply_text('Dies ist eine Übersicht über die aktuell verfügbaren Befehle. Ich versuche diese Liste auch aktuell zu halten :D')
-    update.message.reply_text('/start - Die Nachricht, die du oben schon lesen konntest.\n/test - Ist nur ein Test zum testen von Befehlen.\n/keyboard - Zeigt ein Inline-Keyboard an.\n/set n - Stellt einen Timer mit n Sekunden.\n/unset n - Entfernt den Timer den du mit n Sekunden gestellt hast.\nZusätzlich zu diesen Befehlen kannst du den Bot noch per Inline-Query verwenden. Schreibe in einem Chat @ColinSharkBot und etwas, dass du in Caps, Bold oder Italic haben möchtest. Der Bot übernimmt den Rest.')
+    update.message.reply_text(
+        'Dies ist eine Übersicht über die aktuell verfügbaren Befehle. Ich versuche diese Liste auch aktuell zu halten :D')
+    update.message.reply_text(
+        '/start - Die Nachricht, die du oben schon lesen konntest.'
+        '/test - Ist nur ein Test zum testen von Befehlen.'
+        '/keyboard - Zeigt ein Inline-Keyboard an.'
+        '/set n - Stellt einen Timer mit n Sekunden.'
+        '/unset n - Entfernt den mit n Sekunden gestellten Timer.'
+        'Zusätzlich zu diesen Befehlen kannst du den Bot noch per Inline-Query verwenden. Schreibe in einem Chat @ColinSharkBot und etwas, dass du in Caps, Bold oder Italic haben möchtest. Der Bot übernimmt den Rest.'
+    )
 
 
-#def echo(bot, update):
+# def echo(bot, update):
 #   Alles, was kein Befehl ist, wird Retoure geschickt
 #    update.message.reply_text(update.message.text)
 
 
 def test(bot, update):
-#   Einfach zum testen
+    #   Einfach zum testen
     update.message.reply_text('Ein Test-Command!')
-    bot.send_message(text='{} hat /test genutzt!'.format(
-        update.effective_user.first_name), chat_id=UserID_Colin)
-    bot.send_message(text='{} hat /test genutzt!'.format(
-        update.effective_user.first_name), chat_id=UserID_Rotfell)
+    bot.send_message(
+        chat_id=UserID_Colin,
+        text='{} hat /test genutzt!'.format(update.effective_user.first_name),
+    )
+
+
+#    bot.send_message(text='{} hat /test genutzt!'.format(
+#        update.effective_user.first_name), chat_id=UserID_KIBA)
+#    bot.send_message(text='{} hat /test genutzt!'.format(
+#        update.effective_user.first_name), chat_id=UserID_Rotfell)
 
 
 def keyboard(bot, update):
-#   Gibt eine Inline-Tastatur mit Zahlen 1 bis 9 aus
+    #   Gibt eine Inline-Tastatur mit Zahlen 1 bis 9 aus
     keyboard = [[InlineKeyboardButton("1", callback_data='1'),
                  InlineKeyboardButton("2", callback_data='2'),
                  InlineKeyboardButton("3", callback_data='3')],
@@ -103,12 +125,14 @@ def keyboard(bot, update):
 
     update.message.reply_text('Bitte eine Option aussuchen:', reply_markup=reply_markup)
 
+
 def button(bot, update):
     query = update.callback_query
 
     bot.edit_message_text(text="Deine Auswahl: {}".format(query.data),
                           chat_id=query.message.chat_id,
                           message_id=query.message.message_id)
+
 
 #   Die Inline-Anfrage in anderen Chats
 #   Formattiert in CAPS, Fett und Kursiv
@@ -136,8 +160,9 @@ def inlinequery(bot, update):
 
     update.inline_query.answer(results)
 
-###   Sekunden-Timer stellen.
-###   Ziemlich fucking nutzlos xD
+
+#   Sekunden-Timer stellen.
+#   Ziemlich fucking nutzlos xD
 ##def alarm(bot, job):
 ##    """Sendet die Benachrichtigung, dass der Alarm fällig ist."""
 ##    bot.send_message(job.context, text='Zeit abgelaufen!')
@@ -172,9 +197,6 @@ def inlinequery(bot, update):
 ##    update.message.reply_text('Timer erfolgreich entfernt')
 
 
-
-
-
 # ##############################################################################
 
 # Error Logs und so Kram
@@ -196,16 +218,16 @@ def main():
     dp.add_handler(CommandHandler("help", help))
     dp.add_handler(CommandHandler("test", test))
     dp.add_handler(CommandHandler("keyboard", keyboard))
-##    dp.add_handler(CommandHandler("set", set_timer,
-##                                  pass_args=True,
-##                                  pass_job_queue=True,
-##                                  pass_chat_data=True))
-##    dp.add_handler(CommandHandler("unset", unset, pass_chat_data=True))
+    ##    dp.add_handler(CommandHandler("set", set_timer,
+    ##                                  pass_args=True,
+    ##                                  pass_job_queue=True,
+    ##                                  pass_chat_data=True))
+    ##    dp.add_handler(CommandHandler("unset", unset, pass_chat_data=True))
 
-#   # Nicht-Befehle
-#    dp.add_handler(MessageHandler(Filters.text, echo))# Retoure
-    dp.add_handler(CallbackQueryHandler(button))# Inline-Keyboard
-    dp.add_handler(InlineQueryHandler(inlinequery))# Inline-Anfrage
+    #   # Nicht-Befehle
+    #    dp.add_handler(MessageHandler(Filters.text, echo))# Retoure
+    dp.add_handler(CallbackQueryHandler(button))  # Inline-Keyboard
+    dp.add_handler(InlineQueryHandler(inlinequery))  # Inline-Anfrage
 
     # log all errors
     dp.add_error_handler(error)
